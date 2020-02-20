@@ -1,0 +1,128 @@
+Metadata-Version: 1.0
+Name: progbar
+Version: 0.3
+Summary: simple progression bar for shell scripts
+Home-page: UNKNOWN
+Author: Yves-Gwenael Bourhis
+Author-email: ygbourhis at gmail.com
+License: GNU General Public License version 2.0
+Description: 
+            A simple progression bar by Yves-Gwenael Bourhis
+            
+            Usage:
+            ======
+            
+            Class ProgBar(name, lenght):
+            ----------------------------
+                name is a string
+                lenght is an integer which represents the number of elements in the bar
+                
+            Methods:
+            ========
+            
+            start():
+            --------
+                Start the progression bar in a thread
+                the progression and thread stop automaticaly when the "percent" property reaches 100%
+            
+            stop():
+            -------
+                Stop the progression bar and the thread
+                It is recommended to call the join() method after
+            
+            fill():
+            -------
+                Add an element to the bar, and match the corresponding percentage
+         
+            isAlive():
+            ----------
+                Returns True if the bar's thread is running, False otherwise
+                
+            join():
+            -------
+                Wait until the threaded bar terminates.
+                It is recomended to call this method after a stop() call
+                
+            
+            properties:
+            ===========
+            
+            percent:
+            --------
+                percentage of the bar progression
+                
+            
+            Example Using step progression::
+        
+                >>> def printatestbar1():
+                ...     bar = ProgBar('test1', 20)
+                ...     bar.start()
+                ...     while bar.isAlive():
+                ...         time.sleep(0.1)
+                ...         bar.fill()
+                ...     bar.join()
+                >>> printatestbar1()
+                test1 [####################] 100%
+                >>> 
+            
+            Example Using percentage progression::
+        
+                >>> def printatestbar2():
+                ...     bar = ProgBar('test2', 20)
+                ...     bar.start()
+                ...     while bar.isAlive():
+                ...         bar.percent += 1
+                ...         time.sleep(0.1)
+                ...     bar.join()
+                >>> printatestbar2()
+                test2 [####################] 100%
+                >>> 
+            
+            Example Interupting the progression bar::
+        
+                >>> def printatestbar3():
+                ...     bar = ProgBar('test3', 20)
+                ...     bar.start()
+                ...     while bar.isAlive():
+                ...         bar.percent += 1
+                ...         if bar.percent == 50:
+                ...             bar.stop()
+                ...             break
+                ...         time.sleep(0.1)
+                ...     bar.join()
+                >>> printatestbar3()
+                test3 [##########-         ]  50%
+                >>> 
+            
+            
+        
+            ===============
+            Release Notes :
+            ===============
+        
+            Release 0.1:
+            ============
+        
+            First Version
+        
+            Release 0.2:
+            ============
+        
+            Removed the destructor (__del__ method) because of:
+        
+            + The Warning here:
+              http://docs.python.org/reference/datamodel.html#object.__del__
+        
+            + Destroyed objects where not automaticaly removed by
+              the garbage collector as described here:
+              http://docs.python.org/library/gc.html#gc.garbage
+              Which could cause memory usage increase.
+        
+            Release 0.3:
+            ============
+        
+            Changed author's contact info.
+        
+Platform: Windows
+Platform: Linux
+Platform: Mac OS
