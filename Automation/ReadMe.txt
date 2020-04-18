@@ -1,0 +1,1 @@
+Add inferno bat file in the task scheduler and create a custom task to run the test.py file in PredictionAutomation
